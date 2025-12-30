@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/harykali/llvm_hello_world/build",
+  "command": "/usr/bin/c++ -DGTEST_HAS_RTTI=0 -I/home/harykali/llvm17_labzone/llvm_install_dir/include  -fno-rtti -g   -D_GNU_SOURCE -D__STDC_CONSTANT_MACROS -D__STDC_FORMAT_MACROS -D__STDC_LIMIT_MACROS  -fno-exceptions -funwind-tables -fno-rtti -std=gnu++20 -o CMakeFiles/LLVM_HELLO_WORLD.dir/main.cc.o -c /home/harykali/llvm_hello_world/main.cc",
+  "file": "/home/harykali/llvm_hello_world/main.cc"
+}
+]

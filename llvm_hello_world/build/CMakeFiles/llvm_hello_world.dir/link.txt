@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wl,-rpath-link,  -Wl,--gc-sections CMakeFiles/llvm_hello_world.dir/main.cc.o -o ../bin/llvm_hello_world  -Wl,-rpath,"\$ORIGIN/../lib:/usr/lib/llvm-14/lib" /usr/lib/llvm-14/lib/libLLVM-14.so.1 

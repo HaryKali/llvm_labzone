@@ -1,0 +1,7 @@
+/home/harykali/llvm_hello_world/build/CMakeFiles/intrinsics_gen.dir
+/home/harykali/llvm_hello_world/build/CMakeFiles/omp_gen.dir
+/home/harykali/llvm_hello_world/build/CMakeFiles/acc_gen.dir
+/home/harykali/llvm_hello_world/build/CMakeFiles/RISCVTargetParserTableGen.dir
+/home/harykali/llvm_hello_world/build/CMakeFiles/LLVM_HELLO_WORLD.dir
+/home/harykali/llvm_hello_world/build/CMakeFiles/edit_cache.dir
+/home/harykali/llvm_hello_world/build/CMakeFiles/rebuild_cache.dir

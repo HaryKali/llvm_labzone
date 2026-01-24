@@ -1,41 +1,53 @@
 #pragma once
-#include<llvm/ADT/StringRef.h>
-/// cahr stream -> token stream
+#include "llvm/ADT/StringRef.h"
+#include "llvm/Support/raw_ostream.h"
 
-enum class TokenType {
-    unknow,
+/// char stream -> Token
+
+enum class TokenType
+{
+    unknown,
     number,
-    plus,
-    minus,
-    slash,
-    star,
-    l_paren,
-    r_paren,
-    semi,
-    eof, // end of file
+    minus,    // -
+    plus,     // +
+    star,     // *
+    slash,    // '/'
+    l_parent, // {
+    r_parent, // }
+    semi,     // ';'
+    eof       // end
 };
 
+class Token
+{
+public:
+    int row, col;
+    TokenType tokenType;
+    int value;
+    llvm::StringRef content;
+    Token()
+    {
+        row = col = -1;
+        tokenType = TokenType::unknown;
+        value = -1;
+    }
 
-class Token {
-    public:
-        int row, col;
-        TokenType tokenType;
-        int value; // only for number tokens
+    void Dump()
+    {
+        llvm::outs() << "{ " << content << ", row = " << row << ", col = " << col << "}\n";
+    }
+};
 
-        Token(){
-            row=col=-1;
-            tokenType=TokenType::unknow;
-            value=0;
+class Lexer
+{
+public:
+    Lexer(llvm::StringRef sourceCode);
 
-        }
-};  
+    void NextToken(Token &tok);
 
-class Lexer {
-    public:
-        Lexer(llvm::StringRef sourceCode);
-        void NextToken(Token &tok);
-    private:
-        const char* BufPtr;
-        const char* LineHeadPtr;
-        const char* BufEnd;
-};      
+private:
+    const char *BufPtr;
+    const char *LineHeadPtr;
+    const char *BufEnd;
+    int row;
+};

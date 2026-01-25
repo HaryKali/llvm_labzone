@@ -50,6 +50,8 @@ void Lexer::NextToken(Token &tok) {
     }else {
         switch (*BufPtr)
         {
+        
+            
         case '+': {
             tok.tokenType = TokenType::plus;
             BufPtr++;
@@ -80,6 +82,13 @@ void Lexer::NextToken(Token &tok) {
             tok.content = llvm::StringRef(start, 1);
             break;
         }
+        case '%':{
+            tok.tokenType = TokenType::mod;
+            BufPtr++;
+            tok.content = llvm::StringRef(start, 1);
+            break;
+        }
+
         case '(':{
             tok.tokenType = TokenType::l_parent;
             BufPtr++;
@@ -91,7 +100,15 @@ void Lexer::NextToken(Token &tok) {
             BufPtr++;
             tok.content = llvm::StringRef(start, 1);
             break;
-        }        
+        }
+        
+        case '^':{
+            tok.tokenType = TokenType::pow;
+            BufPtr++;
+            tok.content = llvm::StringRef(start, 1);
+            break;
+        }
+
         default:
             tok.tokenType = TokenType::unknown;
             break;

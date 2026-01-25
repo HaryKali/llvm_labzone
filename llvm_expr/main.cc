@@ -9,7 +9,7 @@ int main(int argc, char **argv)
 {
     if (argc < 2) {
         printf("Please provide input file.\n");
-        return 0;
+        return -1;
     }
 
     const char *FileName = argv[1];
@@ -17,7 +17,7 @@ int main(int argc, char **argv)
     static llvm::ErrorOr<std::unique_ptr<llvm::MemoryBuffer>> file = llvm::MemoryBuffer::getFile(FileName);
     if (!file) {
         llvm::errs() << "Error reading file: " << FileName << "\n";
-        return 0;
+        return -1;
     }
     std::unique_ptr<llvm::MemoryBuffer> fileBuffer = std::move(*file);
     Lexer lex(fileBuffer->getBuffer());
@@ -25,7 +25,8 @@ int main(int argc, char **argv)
     Token tok;
     while (tok.tokenType != TokenType::eof) {
         lex.NextToken(tok);
-        tok.Dump();
+        if (tok.tokenType != TokenType::eof)
+            tok.Dump();
     
     }
     return 1;

@@ -15,6 +15,8 @@ enum class TokenType
     l_parent, // {
     r_parent, // }
     semi,     // ';'
+    mod,      // '%'
+    pow,      // '^'
     eof       // end
 };
 
@@ -34,7 +36,9 @@ public:
 
     void Dump()
     {
-        llvm::outs() << "{ " << content << ", row = " << row << ", col = " << col << "}\n";
+
+
+        llvm::outs() << "{ " << content  << ", row = " << row << ", col = " << col << "}\n";
     }
 };
 

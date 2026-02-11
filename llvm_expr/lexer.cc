@@ -51,6 +51,7 @@ void Lexer::NextToken(Token &tok) {
         switch (*BufPtr)
         {
         
+        
             
         case '+': {
             tok.tokenType = TokenType::plus;
@@ -87,6 +88,14 @@ void Lexer::NextToken(Token &tok) {
             BufPtr++;
             tok.content = llvm::StringRef(start, 1);
             break;
+        }
+
+        case '#':{
+            tok.tokenType = TokenType::sharp;
+            BufPtr++;
+            tok.content = llvm::StringRef(start, 1);
+            break;
+
         }
 
         case '(':{

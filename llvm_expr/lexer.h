@@ -17,6 +17,7 @@ enum class TokenType
     semi,     // ';'
     mod,      // '%'
     pow,      // '^'
+    sharp,   // '#'
     eof       // end
 };
 
@@ -36,8 +37,6 @@ public:
 
     void Dump()
     {
-
-
         llvm::outs() << "{ " << content  << ", row = " << row << ", col = " << col << "}\n";
     }
 };

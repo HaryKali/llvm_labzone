@@ -1,28 +1,34 @@
 #include "lexer.h"
 
-bool IsWhiteSpace(char ch) {
+bool IsWhiteSpace(char ch)
+{
     return ch == ' ' || ch == '\r' || ch == '\n';
 }
 
-bool IsDigit(char ch) {
+bool IsDigit(char ch)
+{
     return (ch >= '0' && ch <= '9');
 }
 
-Lexer::Lexer(llvm::StringRef sourceCode) {
+Lexer::Lexer(llvm::StringRef sourceCode)
+{
     LineHeadPtr = sourceCode.begin();
     BufPtr = sourceCode.begin();
     BufEnd = sourceCode.end();
     row = 1;
 }
 
-void Lexer::NextToken(Token &tok) {
+void Lexer::NextToken(Token &tok)
+{
     tok.row = row;
 
-    /// 1. Skip white space 
-    while (IsWhiteSpace(*BufPtr)) {
-        if (*BufPtr == '\n') {
+    /// 1. Skip white space
+    while (IsWhiteSpace(*BufPtr))
+    {
+        if (*BufPtr == '\n')
+        {
             row++;
-            LineHeadPtr = BufPtr+1;
+            LineHeadPtr = BufPtr + 1;
         }
         BufPtr++;
     }
@@ -30,88 +36,109 @@ void Lexer::NextToken(Token &tok) {
     tok.col = BufPtr - LineHeadPtr + 1;
 
     /// 2. Check EOF
-    if (BufPtr >= BufEnd) {
+    if (BufPtr >= BufEnd)
+    {
         tok.tokenType = TokenType::eof;
         return;
     }
 
     const char *start = BufPtr;
-    if (IsDigit(*BufPtr)) {
-        /// 
+    if (IsDigit(*BufPtr))
+    {
+        ///
         int len = 0;
         int number = 0;
-        while (IsDigit(*BufPtr)) {
+        while (IsDigit(*BufPtr))
+        {
             number = number * 10 + (*BufPtr++ - '0');
             len++;
         }
         tok.tokenType = TokenType::number;
         tok.value = number;
         tok.content = llvm::StringRef(start, len);
-    }else {
+    }
+    else
+    {
         switch (*BufPtr)
         {
-        
-        
-            
-        case '+': {
+
+        case '+':
+        {
             tok.tokenType = TokenType::plus;
             BufPtr++;
             tok.content = llvm::StringRef(start, 1);
             break;
         }
-        case '-': {
+        case '-':
+        {
             tok.tokenType = TokenType::minus;
             BufPtr++;
             tok.content = llvm::StringRef(start, 1);
             break;
         }
-        case '*':{
+        case '*':
+        {
             tok.tokenType = TokenType::star;
             BufPtr++;
             tok.content = llvm::StringRef(start, 1);
             break;
         }
-        case '/':{
+        case '/':
+        {
             tok.tokenType = TokenType::slash;
             BufPtr++;
             tok.content = llvm::StringRef(start, 1);
             break;
         }
-        case ';':{
+        case ';':
+        {
             tok.tokenType = TokenType::semi;
             BufPtr++;
             tok.content = llvm::StringRef(start, 1);
             break;
         }
-        case '%':{
+        case '%':
+        {
             tok.tokenType = TokenType::mod;
             BufPtr++;
             tok.content = llvm::StringRef(start, 1);
             break;
         }
 
-        case '#':{
+        case '#':
+        {
             tok.tokenType = TokenType::sharp;
             BufPtr++;
-            tok.content = llvm::StringRef(start, 1);
-            break;
 
+            const char *tokenStart = BufPtr - 1; 
+
+            while (BufPtr < BufEnd && *BufPtr != '\n')
+            {
+                BufPtr++;
+            }
+
+            int tokenLength = BufPtr - tokenStart;
+            tok.content = llvm::StringRef(tokenStart, 1);
+            break;
         }
 
-        case '(':{
+        case '(':
+        {
             tok.tokenType = TokenType::l_parent;
             BufPtr++;
             tok.content = llvm::StringRef(start, 1);
             break;
         }
-        case ')':{
+        case ')':
+        {
             tok.tokenType = TokenType::r_parent;
             BufPtr++;
             tok.content = llvm::StringRef(start, 1);
             break;
         }
-        
-        case '^':{
+
+        case '^':
+        {
             tok.tokenType = TokenType::pow;
             BufPtr++;
             tok.content = llvm::StringRef(start, 1);

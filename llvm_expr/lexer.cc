@@ -117,7 +117,6 @@ void Lexer::NextToken(Token &tok)
                 BufPtr++;
             }
 
-            int tokenLength = BufPtr - tokenStart;
             tok.content = llvm::StringRef(tokenStart, 1);
             break;
         }

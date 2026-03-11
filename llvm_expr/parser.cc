@@ -1,25 +1,51 @@
+
+// prog : (expr? ";")*
+// expr : term (("+" | "-") term)* ;
+// term : factor (("*" | "/") factor)* ;
+// factor : number | "(" expr ")" ; // 1*(2+3)
+// number: ([0-9])* ;
+
+
 #include "parser.h"
 
-std::shared_ptr<Program> Parser::ParseProgram(){
-    //while Ture .....EXIT
-    //token->eof
+std::shared_ptr<Program> Parser::ParseProgram() {
+    // while Ture .....EXIT
+    // token->eof
+    std::vector<std::shared_ptr<Expr>> exprVec;
+    while (tok.tokenType != TokenType::eof) {
+        // parse expr
+        // expect ';'
+        if (tok.tokenType == TokenType::semi) {
+            Advance();
+            continue;
+        }
+        auto expr = ParseExpr();
+        exprVec.push_back(expr);
+
+    }
+    auto program=std::make_shared<Program>();
+    program->exprs = std::move(exprVec);
+    return program;
 };
-std::shared_ptr<Expr> Parser::ParseTerm(){
 
-};
-std::shared_ptr<Expr> Parser::ParseFactor(){
-
-};
-
-bool Parser::Expect(TokenType tokenType){
+// left combining
+std::shared_ptr<Expr> Parser::ParseTerm() {
+    auto term=ParseTerm();
 
 
 };
-
-bool Parser::Consume(TokenType tokenType){
+std::shared_ptr<Expr> Parser::ParseFactor() {
 
 };
 
-void Parser::Advance(){
+bool Parser::Expect(TokenType tokenType) {
+
+};
+
+bool Parser::Consume(TokenType tokenType) {
+
+};
+
+void Parser::Advance() {
     // lexer.NextToken(tok);
 };

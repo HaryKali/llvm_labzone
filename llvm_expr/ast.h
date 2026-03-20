@@ -13,16 +13,16 @@ enum class OPCode{
     DIV
 };
 
-class binaryExpr {
+class BinaryExpr: public Expr{
     public:
-        ~binaryExpr(){};
+        ~BinaryExpr(){};
         OPCode op;
         std::shared_ptr<Expr> left;
         std::shared_ptr<Expr> right;
 
 };
 
-class FactorExpr {
+class FactorExpr: public Expr{
     public:
         ~FactorExpr(){};
         int number;

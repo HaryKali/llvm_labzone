@@ -29,23 +29,87 @@ std::shared_ptr<Program> Parser::ParseProgram() {
 };
 
 // left combining
-std::shared_ptr<Expr> Parser::ParseTerm() {
-    auto term=ParseTerm();
 
+
+std::shared_ptr<Expr> Parser::ParseExpr(){
+    auto left =ParseTerm();
+    while (tok.tokenType == TokenType::plus || tok.tokenType == TokenType::minus) {
+        OPCode op;
+        if (tok.tokenType == TokenType::plus) {
+            op = OPCode::ADD;
+        } else {
+            op = OPCode::SUB;
+        }
+        Advance();
+        auto BinaryExpr = std::make_shared<BinaryExpr>();
+        BinaryExpr->op = op;
+        BinaryExpr->left = left;
+        BinaryExpr->right = ParseTerm();
+
+        left=BinaryExpr;
+
+    }
+    return left;
+} 
+
+// left combining can be optimized by right combining, but it is more complex to implement, and the performance improvement is not significant, so we use left combining here.
+std::shared_ptr<Expr> Parser::ParseTerm() {
+
+    auto left =ParseFactor();
+    while (tok.tokenType == TokenType::star || tok.tokenType == TokenType::slash) {
+        OPCode op;
+        if (tok.tokenType == TokenType::star) {
+            op = OPCode::MUL;
+        } else {
+            op = OPCode::DIV;
+        }
+        Advance();
+        auto BinaryExpr = std::make_shared<BinaryExpr>();
+        BinaryExpr->op = op;
+        BinaryExpr->left = left;
+        BinaryExpr->right = ParseFactor();
+
+        left=BinaryExpr;
+
+    }
+    return left;
 
 };
 std::shared_ptr<Expr> Parser::ParseFactor() {
+    if (tok.tokenType == TokenType::l_parent) {
+        Advance();
+        auto expr=ParseExpr();
+        assert(tok.tokenType == TokenType::r_parent);
+        Advance();
+        return expr;
+    } else{
+        auto factor=std::make_shared<FactorExpr>();
+        factor->number=tok.value;
+        Advance();
+        return factor;  
+
+    }
 
 };
 
 bool Parser::Expect(TokenType tokenType) {
-
+    if (tok.tokenType == tokenType) {
+        return true;
+    } else {
+        llvm::errs() << "Error: Expected token type " << static_cast<int>(tokenType) << " but got " << static_cast<int>(tok.tokenType) << " at row " << tok.row << ", col " << tok.col << "\n";
+        return false;
+    }
 };
 
 bool Parser::Consume(TokenType tokenType) {
-
+    if (Expect(tokenType)) {
+        Advance();
+        return true;
+    } else {
+        return false;
+    }
 };
 
 void Parser::Advance() {
-    // lexer.NextToken(tok);
+    lexer.NextToken(tok);
 };

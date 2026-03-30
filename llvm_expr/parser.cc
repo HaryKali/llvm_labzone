@@ -30,9 +30,10 @@ std::shared_ptr<Program> Parser::ParseProgram() {
 
 // left combining
 
-
+// expr : term (("+" | "-") term)* ;
 std::shared_ptr<Expr> Parser::ParseExpr(){
     auto left =ParseTerm();
+
     while (tok.tokenType == TokenType::plus || tok.tokenType == TokenType::minus) {
         OPCode op;
         if (tok.tokenType == TokenType::plus) {
@@ -52,7 +53,9 @@ std::shared_ptr<Expr> Parser::ParseExpr(){
     return left;
 } 
 
-// left combining can be optimized by right combining, but it is more complex to implement, and the performance improvement is not significant, so we use left combining here.
+// left combining can be optimized by right combining, but it is more complex to implement, 
+//and the performance improvement is not significant, so we use left combining here.
+// term : factor (("*" | "/") factor)* ;
 std::shared_ptr<Expr> Parser::ParseTerm() {
 
     auto left =ParseFactor();
@@ -75,6 +78,7 @@ std::shared_ptr<Expr> Parser::ParseTerm() {
     return left;
 
 };
+// term : factor (("*" | "/") factor)* ;
 std::shared_ptr<Expr> Parser::ParseFactor() {
     if (tok.tokenType == TokenType::l_parent) {
         Advance();

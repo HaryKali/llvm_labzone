@@ -7,7 +7,7 @@
 
 
 #include "parser.h"
-
+#include "ast.h"
 std::shared_ptr<Program> Parser::ParseProgram() {
     // while Ture .....EXIT
     // token->eof
@@ -42,12 +42,12 @@ std::shared_ptr<Expr> Parser::ParseExpr(){
             op = OPCode::SUB;
         }
         Advance();
-        auto BinaryExpr = std::make_shared<BinaryExpr>();
-        BinaryExpr->op = op;
-        BinaryExpr->left = left;
-        BinaryExpr->right = ParseTerm();
+        auto binaryExpr = std::make_shared<BinaryExpr>();
+        binaryExpr->op = op;
+        binaryExpr->left = left;
+        binaryExpr->right = ParseTerm();
 
-        left=BinaryExpr;
+        left = binaryExpr;
 
     }
     return left;
@@ -67,12 +67,12 @@ std::shared_ptr<Expr> Parser::ParseTerm() {
             op = OPCode::DIV;
         }
         Advance();
-        auto BinaryExpr = std::make_shared<BinaryExpr>();
-        BinaryExpr->op = op;
-        BinaryExpr->left = left;
-        BinaryExpr->right = ParseFactor();
+        auto binaryExpr = std::make_shared<BinaryExpr>();
+        binaryExpr->op = op;
+        binaryExpr->left = left;
+        binaryExpr->right = ParseFactor();
 
-        left=BinaryExpr;
+        left = binaryExpr;
 
     }
     return left;
@@ -100,7 +100,10 @@ bool Parser::Expect(TokenType tokenType) {
     if (tok.tokenType == tokenType) {
         return true;
     } else {
-        llvm::errs() << "Error: Expected token type " << static_cast<int>(tokenType) << " but got " << static_cast<int>(tok.tokenType) << " at row " << tok.row << ", col " << tok.col << "\n";
+        llvm::errs() << "Error: Expected token type " << static_cast<int>(tokenType) << 
+         " but got " << static_cast<int>(tok.tokenType) << 
+         " at row " << tok.row << 
+         ", col " << tok.col << "\n";
         return false;
     }
 };

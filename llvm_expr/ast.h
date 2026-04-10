@@ -11,6 +11,7 @@ enum class OPCode{
     SUB,
     MUL,
     DIV
+
 };
 
 class BinaryExpr: public Expr{

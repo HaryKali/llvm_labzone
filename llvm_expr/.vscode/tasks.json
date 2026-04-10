@@ -2,6 +2,16 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "clean",
+            "type": "shell",
+            "command": "sh",
+            "args": [
+                "-c",
+                "rm -rf build && mkdir -p build"
+            ],
+            "group": "build"
+        },
+        {
             "label": "build_dir",
             "command": "mkdir",
             "type": "shell",
@@ -25,7 +35,7 @@
                 "cwd": "${workspaceFolder}/build"
             },
             "dependsOn": [
-                "build_dir"
+                "clean"
             ]
         },
         {

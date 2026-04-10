@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 // #include <llvm/IR/Module.h>
 // #include <llvm/IR/IRBuilder.h>
 // #include <llvm/IR/LLVMContext.h>
@@ -23,13 +24,13 @@ int main(int argc, char **argv)
     std::unique_ptr<llvm::MemoryBuffer> fileBuffer = std::move(*file);
     Lexer lex(fileBuffer->getBuffer());
 
-    // Token tok;
-    // while (tok.tokenType != TokenType::eof) {
-    //     lex.NextToken(tok);
-    //     if (tok.tokenType != TokenType::eof)
-    //         tok.Dump();
+    Token tok;
+    while (tok.tokenType != TokenType::eof) {
+        lex.NextToken(tok);
+        if (tok.tokenType != TokenType::eof)
+            tok.Dump();
     
-    // }
+    }
     Parser parser(lex);
     auto program=parser.ParseProgram();
 

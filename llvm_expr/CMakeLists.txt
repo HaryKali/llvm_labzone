@@ -21,4 +21,5 @@ endif()
 
 set(LLVM_LINK_COMPONENTS Support Core)
 
-add_llvm_executable(${PROJECT_NAME} main.cc lexer.cc parser.cc printVisitor.cc)
+# add_llvm_executable(${PROJECT_NAME} main.cc lexer.cc parser.cc printVisitor.cc)
+add_llvm_executable(${PROJECT_NAME} main.cc lexer.cc parser.cc)

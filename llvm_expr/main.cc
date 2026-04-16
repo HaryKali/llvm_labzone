@@ -9,7 +9,9 @@
 #include "parser.h"
 int main(int argc, char **argv)
 {
-    if (argc < 2) {
+    if (argc < 2)
+    {
+
         printf("Please provide input file.\n");
         return -1;
     }
@@ -17,7 +19,8 @@ int main(int argc, char **argv)
     const char *FileName = argv[1];
 
     static llvm::ErrorOr<std::unique_ptr<llvm::MemoryBuffer>> file = llvm::MemoryBuffer::getFile(FileName);
-    if (!file) {
+    if (!file)
+    {
         llvm::errs() << "Error reading file: " << FileName << "\n";
         return -1;
     }
@@ -25,15 +28,14 @@ int main(int argc, char **argv)
     Lexer lex(fileBuffer->getBuffer());
 
     Token tok;
-    while (tok.tokenType != TokenType::eof) {
+    while (tok.tokenType != TokenType::eof)
+    {
         lex.NextToken(tok);
         if (tok.tokenType != TokenType::eof)
             tok.Dump();
-    
-    }
+        }
     Parser parser(lex);
-    auto program=parser.ParseProgram();
-
+    auto program = parser.ParseProgram();
 
     return 1;
 }

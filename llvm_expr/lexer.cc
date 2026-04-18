@@ -45,7 +45,6 @@ void Lexer::NextToken(Token &tok)
     const char *start = BufPtr;
     if (IsDigit(*BufPtr))
     {
-        ///
         int len = 0;
         int number = 0;
         while (IsDigit(*BufPtr))

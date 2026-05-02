@@ -8,6 +8,7 @@
 #include "llvm/Support/ErrorOr.h"
 #include "parser.h"
 #include "printVisitor.h"
+#include "codegen.h"
 int main(int argc, char **argv)
 {
     if (argc < 2)
@@ -37,6 +38,8 @@ int main(int argc, char **argv)
     //     }
     Parser parser(lex);
     auto program = parser.ParseProgram();
-    PrintVisitor printVisitor(program);
+    // PrintVisitor printVisitor(program);
+    CodeGen codeGen(program);
+
     return 1;
 }

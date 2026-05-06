@@ -1,2 +1,6 @@
 bin/
 build/
+llvm_projects/
+llvm_project_1706/
+/llvm_expr/
+/llvm_hello_world/

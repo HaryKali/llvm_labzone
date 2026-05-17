@@ -1,8 +1,5 @@
 #include <iostream>
 #include <memory>
-// #include <llvm/IR/Module.h>
-// #include <llvm/IR/IRBuilder.h>
-// #include <llvm/IR/LLVMContext.h>
 #include "lexer.h"
 #include "llvm/Support/MemoryBuffer.h"
 #include "llvm/Support/ErrorOr.h"
@@ -37,8 +34,9 @@ int main(int argc, char **argv)
     //     }
     Parser parser(lex);
     auto program = parser.ParseProgram();
+    std::cout << "Parsing completed.\n";
     // PrintVisitor printVisitor(program);
     CodeGen codeGen(program);
-
+    std::cout << "Codegen completed.\n";
     return 1;
 }

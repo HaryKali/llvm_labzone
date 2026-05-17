@@ -25,7 +25,7 @@ std::shared_ptr<Program> Parser::ParseProgram()
         exprVec.push_back(expr);
     }
     auto program = std::make_shared<Program>();
-    program->exprs = std::move(exprVec);
+    program->exprVec = std::move(exprVec);
     return program;
 };
 

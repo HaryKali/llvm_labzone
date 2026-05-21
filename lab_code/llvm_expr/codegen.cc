@@ -28,10 +28,7 @@ llvm::Value* CodeGen::VisitorFactorExpr(FactorExpr *factorExpr)
 {
     return IRbuilder.getInt32(factorExpr->number);
 }
-// llvm::Value* CodeGen::VisitorExpr(Expr *expr)
-// {
-//     return expr->Accept(this);
-// }
+
 
 llvm::Value* CodeGen::VisitorProgram(Program *program)
 {

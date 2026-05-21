@@ -1,5 +1,7 @@
 #include <iostream>
 #include <memory>
+#include <cstdlib>
+#include <unistd.h>
 #include "lexer.h"
 #include "llvm/Support/MemoryBuffer.h"
 #include "llvm/Support/ErrorOr.h"
@@ -8,6 +10,10 @@
 #include "codegen.h"
 int main(int argc, char **argv)
 {
+    if (std::getenv("WAIT_FOR_DEBUGGER")) {
+        std::cerr << "WAIT_FOR_DEBUGGER set, pid=" << getpid() << ", waiting 60 seconds for attach...\n";
+        sleep(60);
+    }
     if (argc < 2)
     {
         printf("Please provide input file.\n");

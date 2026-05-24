@@ -10,7 +10,7 @@ std::shared_ptr<Program> Parser::ParseProgram()
 {
     // while Ture .....EXIT
     // token->eof
-
+    Advance();
     std::vector<std::shared_ptr<Expr>> exprVec;
     while (tok.tokenType != TokenType::eof)
     {

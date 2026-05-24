@@ -32,22 +32,33 @@ llvm::Value* CodeGen::VisitorFactorExpr(FactorExpr *factorExpr)
 
 llvm::Value* CodeGen::VisitorProgram(Program *program)
 {
-    //main 
-   auto mFuncType = FunctionType::get(IRbuilder.getInt32Ty(), false);
-   auto mFunc=   Function::Create(mFuncType, GlobalValue::ExternalLinkage, "main", module.get());
-    BasicBlock *entryBB = BasicBlock::Create(context, "entry", mFunc);
-    for(auto &expr: program->exprVec){
-        expr->Accept(this);
-    }
-    
-    llvm::Value* ret = IRbuilder.CreateRet(IRbuilder.getInt32(0));
 
+    auto printfFuncType = FunctionType::get(IRbuilder.getInt32Ty(), {IRbuilder.getPtrTy()}, true);
+    auto printfFunc = Function::Create(printfFuncType, GlobalValue::ExternalLinkage, "printf", module.get());
     
-    IRbuilder.SetInsertPoint(entryBB);
+    auto mFuncType = FunctionType::get(IRbuilder.getInt32Ty(), false);
+    auto mFunc = Function::Create(mFuncType, GlobalValue::ExternalLinkage, "main", module.get());
+    
+    BasicBlock *entryBB = BasicBlock::Create(context, "entry", mFunc);
+    
+    IRbuilder.SetInsertPoint(entryBB); 
+    
+    for(auto &expr: program->exprVec){
+        llvm::Value* p = expr->Accept(this);
+        if (!p) continue; 
+
+        if (p->getType()->isIntegerTy() && p->getType()->getIntegerBitWidth() != 32) {
+            p = IRbuilder.CreateIntCast(p, IRbuilder.getInt32Ty(), true, "tmp_cast");
+        }
+
+        IRbuilder.CreateCall(printfFunc, {IRbuilder.CreateGlobalStringPtr("expr val: %d\n"), p});
+    } 
+    
     IRbuilder.CreateRet(IRbuilder.getInt32(0));
     
-    verifyFunction(*mFunc);
 
+    verifyFunction(*mFunc);
     module->print(outs(), nullptr);
+    
     return nullptr;
 }

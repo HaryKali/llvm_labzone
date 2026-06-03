@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "expr debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/bin/LLVM_HELLO_WORLD",
+            "args": [
+                "test/expr.txt"
+            ],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "build",
+            "environment": [],
+            "externalConsole": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "miDebuggerArgs": "--tty=/dev/pts/6",
+            "MIMode": "gdb",
+            "osx": {
+                "MIMode": "lldb"
+            },
+            "linux": {
+                "MIMode": "gdb"
+            }
+        },
+        {
+            "name": "expr attach",
+            "type": "cppdbg",
+            "request": "attach",
+            "program": "${workspaceFolder}/bin/LLVM_HELLO_WORLD",
+            "processId": "${command:pickProcess}",
+            "miDebuggerPath": "/usr/bin/gdb",
+            "MIMode": "gdb",
+            "cwd": "${workspaceFolder}",
+            "externalConsole": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "linux": {
+                "MIMode": "gdb"
+            }
+        }
+    ]
+}

@@ -18,7 +18,13 @@ enum class TokenType
     mod,      // '%'
     pow,      // '^'
     sharp,   // '#'
-    eof       // end
+    eof,       // end
+
+    //Variable Tokens
+    identifier, // variable name
+    comma, // e.g: int a,b = 2;
+    kw_int, // int
+    equal, // =
 };
 
 class Token

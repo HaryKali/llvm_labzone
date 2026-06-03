@@ -10,6 +10,12 @@ bool IsDigit(char ch)
     return (ch >= '0' && ch <= '9');
 }
 
+bool IsLetter(char ch)
+{
+    return (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || ch == '_';
+}
+
+
 Lexer::Lexer(llvm::StringRef sourceCode)
 {
     LineHeadPtr = sourceCode.begin();
@@ -55,7 +61,20 @@ void Lexer::NextToken(Token &tok)
         tok.tokenType = TokenType::number;
         tok.value = number;
         tok.content = llvm::StringRef(start, len);
+    } else if (IsLetter(*BufPtr))
+    {
+        while (IsLetter(*BufPtr) || IsDigit(*BufPtr))
+        {
+            BufPtr++;
+        }
+        tok.tokenType=TokenType::identifier;
+        tok.content = llvm::StringRef(start, BufPtr - start);
+        if (tok.content == "int")
+        {
+            tok.tokenType = TokenType::kw_int;
+        }
     }
+
     else
     {
         switch (*BufPtr)
@@ -143,6 +162,21 @@ void Lexer::NextToken(Token &tok)
             break;
         }
 
+        //Variable Tokens
+        case '=':
+        {
+            tok.tokenType = TokenType::equal;
+            BufPtr++;
+            tok.content = llvm::StringRef(start, 1);
+            break;
+        }
+        case ',':
+        {
+            tok.tokenType = TokenType::comma;
+            BufPtr++;
+            tok.content = llvm::StringRef(start, 1);
+            break;
+        }
         default:
             tok.tokenType = TokenType::unknown;
             break;

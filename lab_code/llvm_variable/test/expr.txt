@@ -1,1 +1,6 @@
+int a=1;
+int a,b=1;
+int a_b=1;
+int a_=1;
+int _b=1;
 (5+3)/2; 1+2+3;

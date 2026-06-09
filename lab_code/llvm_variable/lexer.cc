@@ -59,6 +59,7 @@ void Lexer::NextToken(Token &tok)
             len++;
         }
         tok.tokenType = TokenType::number;
+        tok.type=CType::GetIntType();
         tok.value = number;
         tok.content = llvm::StringRef(start, len);
     } else if (IsLetter(*BufPtr))

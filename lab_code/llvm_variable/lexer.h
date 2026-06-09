@@ -1,7 +1,7 @@
 #pragma once
 #include "llvm/ADT/StringRef.h"
 #include "llvm/Support/raw_ostream.h"
-
+#include "type.h"
 /// char stream -> Token
 
 enum class TokenType
@@ -34,6 +34,7 @@ public:
     TokenType tokenType;
     int value;
     llvm::StringRef content;
+    CType *type;
     Token()
     {
         row = col = -1;

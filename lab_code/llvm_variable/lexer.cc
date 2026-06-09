@@ -70,8 +70,12 @@ void Lexer::NextToken(Token &tok)
         tok.tokenType=TokenType::identifier;
         tok.content = llvm::StringRef(start, BufPtr - start);
         if (tok.content == "int")
-        {
+        {   
+            
             tok.tokenType = TokenType::kw_int;
+            BufPtr = start + 3;
+            tok.content = llvm::StringRef(start, 3);
+
         }
     }
 

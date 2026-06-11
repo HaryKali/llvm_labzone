@@ -18,7 +18,7 @@ class Parser {
     
     // Check and consume the next token if it matches the expected type. If it does not match, it should report an error.
     bool Consume(TokenType tokenType);
-    //Advnac
+    //Advnace
     void Advance();
 
     Token tok;

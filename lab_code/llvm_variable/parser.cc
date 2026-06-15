@@ -11,7 +11,7 @@ std::shared_ptr<Program> Parser::ParseProgram()
     // while Ture .....EXIT
     // token->eof
     Advance();
-    std::vector<std::shared_ptr<Expr>> exprVec;
+    std::vector<std::shared_ptr<ASTNode>> exprVec;
     while (tok.tokenType != TokenType::eof)
     {
         // parse expr
@@ -32,7 +32,7 @@ std::shared_ptr<Program> Parser::ParseProgram()
 // left combining
 
 // expr : term (("+" | "-") term)* ;
-std::shared_ptr<Expr> Parser::ParseExpr()
+std::shared_ptr<ASTNode> Parser::ParseExpr()
 {
     auto left = ParseTerm();
 

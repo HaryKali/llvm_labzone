@@ -4,9 +4,9 @@
 class Parser {
     private:
         Lexer lexer;
-        std::shared_ptr<Expr> ParseTerm();
-        std::shared_ptr<Expr> ParseFactor();
-        std::shared_ptr<Expr> ParseExpr();
+        std::shared_ptr<ASTNode> ParseTerm();
+        std::shared_ptr<ASTNode> ParseFactor();
+        std::shared_ptr<ASTNode> ParseExpr();
     public:
         Parser(Lexer &lexer) : lexer(lexer) {};
         std::shared_ptr<Program> ParseProgram();

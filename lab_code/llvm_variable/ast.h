@@ -80,8 +80,8 @@ public:
     BinaryExpr() : ASTNode(Kind::ND_BinaryExpr) {};
     ~BinaryExpr() {};
     OPCode op;
-    std::shared_ptr<Expr> left;
-    std::shared_ptr<Expr> right;
+    std::shared_ptr<ASTNode> left;
+    std::shared_ptr<ASTNode> right;
     llvm::Value *Accept(Visitor *visitor) override
     {
         return visitor->VisitorBinaryExpr(this);
@@ -131,7 +131,7 @@ public:
     AssignExpr() : ASTNode(Kind::ND_AssignExpr) {};
     static bool classof(const ASTNode *node)
     {
-        return node->getKind() == Kind::ND_VariableAccessExpr;
+        return node->getKind() == Kind::ND_AssignExpr;
     }
     llvm::Value *Accept(Visitor *visitor) override
     {

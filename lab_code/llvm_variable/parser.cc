@@ -21,12 +21,60 @@ std::shared_ptr<Program> Parser::ParseProgram()
             Advance();
             continue;
         }
-        auto expr = ParseExpr();
-        exprVec.push_back(expr);
+        if (tok.tokenType == TokenType::kw_int)
+        {
+            const auto &exprs = ParseDecl();
+            for (const auto &expr : exprs)
+            {
+                exprVec.push_back(expr);
+            }
+        }
+        else
+        {
+            auto exp = ParseExpr();
+            exprVec.push_back(exp);
+        }
     }
     auto program = std::make_shared<Program>();
     program->exprVec = std::move(exprVec);
     return program;
+};
+
+std::vector<std::shared_ptr<ASTNode>> Parser::ParseDecl()
+{
+    Consume(TokenType::kw_int);
+    CType *baseTy = CType::GetIntType();
+    std::vector<std::shared_ptr<ASTNode>> astArr;
+    ///int a,b=3;
+    ///a,b=3;
+    int i=0;
+    while(tok.tokenType!=TokenType::semi){
+        //variable Node
+        if(i++>0)
+        {
+            assert(Consume(TokenType::comma));
+        }
+
+        auto variableDecl = std::make_shared<VariableDecl>();
+        variableDecl->name = tok.content;
+        astArr.push_back(variableDecl);
+        Consume(TokenType::identifier);
+
+        if(tok.tokenType == TokenType::equal){
+            Advance();
+            auto right=ParseExpr();
+            auto assignExpr = std::make_shared<AssignExpr>();
+            assignExpr->left = variableDecl;
+            assignExpr->right = right;
+
+            astArr.push_back(assignExpr);
+
+        }
+
+    }
+    Consume(TokenType::semi);
+    return astArr;
+
 };
 
 // left combining
@@ -61,7 +109,7 @@ std::shared_ptr<ASTNode> Parser::ParseExpr()
 // left combining can be optimized by right combining, but it is more complex to implement,
 // and the performance improvement is not significant, so we use left combining here.
 // term : factor (("*" | "/") factor)* ;
-std::shared_ptr<Expr> Parser::ParseTerm()
+std::shared_ptr<ASTNode> Parser::ParseTerm()
 {
 
     auto left = ParseFactor();
@@ -87,7 +135,7 @@ std::shared_ptr<Expr> Parser::ParseTerm()
     return left;
 };
 // term : factor (("*" | "/") factor)* ;
-std::shared_ptr<Expr> Parser::ParseFactor()
+std::shared_ptr<ASTNode> Parser::ParseFactor()
 {
     if (tok.tokenType == TokenType::l_parent)
     {

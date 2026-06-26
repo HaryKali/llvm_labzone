@@ -54,7 +54,7 @@ std::vector<std::shared_ptr<ASTNode>> Parser::ParseDecl()
         {
             assert(Consume(TokenType::comma));
         }
-
+        //int a=3; -> int a; a=3;
         auto variableDecl = std::make_shared<VariableDecl>();
         variableDecl->name = tok.content;
         astArr.push_back(variableDecl);

@@ -38,7 +38,26 @@ llvm::Value* PrintVisitor::VisitorBinaryExpr(BinaryExpr *binaryExpr) {
     return nullptr;
 }
 
-llvm::Value* PrintVisitor::VisitorFactorExpr(FactorExpr *factorExpr) {
-    llvm::outs() << factorExpr->number;
+
+llvm::Value* PrintVisitor::VisitorVariableDecl(VariableDecl *variableDecl){
+
+}
+llvm::Value* PrintVisitor::VisitorAssignExpr(AssignExpr *assignExpr) {
+
+}
+
+
+llvm::Value* PrintVisitor::VisitorVariableAccessExpr(VariableAccessExpr *variableAccessExpr){
+
+}
+
+llvm::Value* PrintVisitor::VisitorNumberExpr(NumberExpr *numberExpr) {
+    llvm::outs() << numberExpr->number;
     return nullptr;
 }
+
+
+// llvm::Value* PrintVisitor::VisitorFactorExpr(FactorExpr *factorExpr) {
+//     llvm::outs() << factorExpr->number;
+//     return nullptr;
+// }

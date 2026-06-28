@@ -1,9 +1,10 @@
-
-// prog : (expr? ";")*
-// expr : term (("+" | "-") term)* ;
-// term : factor (("*" | "/") factor)* ;
-// factor : number | "(" expr ")" ; // 1*(2+3)
-// number: ([0-9])*
+/**
+prog : (expr? ";")*
+expr : term (("+" | "-") term)* ;
+term : factor (("*" | "/") factor)* ;
+factor : number | "(" expr ")" ;
+number: ([0-9])+ ;
+ */
 #include "parser.h"
 #include "ast.h"
 std::shared_ptr<Program> Parser::ParseProgram()
@@ -55,6 +56,7 @@ std::vector<std::shared_ptr<ASTNode>> Parser::ParseDecl()
             assert(Consume(TokenType::comma));
         }
         //int a=3; -> int a; a=3;
+        //variable declaration
         auto variableDecl = std::make_shared<VariableDecl>();
         variableDecl->name = tok.content;
         astArr.push_back(variableDecl);
@@ -145,9 +147,18 @@ std::shared_ptr<ASTNode> Parser::ParseFactor()
         Advance();
         return expr;
     }
+    else if (tok.tokenType==TokenType::identifier){
+        ///semc
+        auto expr = std::make_shared<VariableAccessExpr>();
+        expr->name = tok.content;
+        expr->ty = tok.type;
+        Advance();
+        return expr;
+    }
+
     else
     {
-        auto factor = std::make_shared<FactorExpr>();
+        auto factor = std::make_shared<NumberExpr>();
         factor->number = tok.value;
         Advance();
         return factor;

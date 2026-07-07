@@ -7,6 +7,12 @@ class Program;
 class Expr;
 class BinaryExpr;
 class FactorExpr;
+
+class NumberExpr;
+class VariableDecl;
+class VariableAccessExpr;
+class AssignExpr;
+
 class Visitor
 {
 public:

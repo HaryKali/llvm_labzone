@@ -5,6 +5,11 @@ term : factor (("*" | "/") factor)* ;
 factor : number | "(" expr ")" ;
 number: ([0-9])+ ;
  */
+
+ /*
+ 
+ 
+ */
 #include "parser.h"
 #include "ast.h"
 std::shared_ptr<Program> Parser::ParseProgram()
@@ -50,7 +55,7 @@ std::vector<std::shared_ptr<ASTNode>> Parser::ParseDecl()
     ///a,b=3;
     int i=0;
     while(tok.tokenType!=TokenType::semi){
-        //variable Node
+        //count ","
         if(i++>0)
         {
             assert(Consume(TokenType::comma));
@@ -59,6 +64,7 @@ std::vector<std::shared_ptr<ASTNode>> Parser::ParseDecl()
         //variable declaration
         auto variableDecl = std::make_shared<VariableDecl>();
         variableDecl->name = tok.content;
+        variableDecl->ty = CType::GetIntType();
         astArr.push_back(variableDecl);
         Consume(TokenType::identifier);
 

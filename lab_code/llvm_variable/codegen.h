@@ -12,9 +12,13 @@ public:
     }
 private:
     // llvm::Value* VisitorExpr(Expr *expr) override;
+    llvm::Value* VisitorVariableDecl(VariableDecl *variableDecl) override;
+    llvm::Value* VisitorAssignExpr(AssignExpr *assignExpr) override;
     llvm::Value* VisitorBinaryExpr(BinaryExpr *binaryExpr) override;
-    llvm::Value* VisitorFactorExpr(FactorExpr *factorExpr) override;
+    // llvm::Value* VisitorFactorExpr(FactorExpr *factorExpr) override;
+    llvm::Value* VisitorNumberExpr(NumberExpr *numberExpr) override;
     llvm::Value* VisitorProgram(Program *program) override;
+    llvm::Value* VisitorVariableAccessExpr(VariableAccessExpr *variableAccessExpr) override;
 private:
     llvm::LLVMContext context;
     llvm::IRBuilder<> IRbuilder{context};
